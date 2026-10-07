@@ -1,0 +1,869 @@
+\documentclass[11pt,a4paper]{article}
+
+% ---------------------------------------------------------
+% Packages
+% ---------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{parskip}
+\usepackage{microtype}
+
+% ---------------------------------------------------------
+% Hyperlink configuration
+% ---------------------------------------------------------
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue,
+    citecolor=blue
+}
+
+% ---------------------------------------------------------
+% Header / Footer
+% ---------------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{AbleSpace QA Assignment}
+\rhead{Software Testing}
+\cfoot{\thepage}
+
+% ---------------------------------------------------------
+% Table configuration
+% ---------------------------------------------------------
+\renewcommand{\arraystretch}{1.25}
+\setlength{\tabcolsep}{4pt}
+\setlength{\headheight}{14pt}
+\setlist{nosep}
+\captionsetup{font=small,labelfont=bf}
+\emergencystretch=2em
+
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+% ---------------------------------------------------------
+% Section formatting
+% ---------------------------------------------------------
+\titleformat{\section}
+{\Large\bfseries}
+{\thesection.}
+{0.5em}
+{}
+
+\titleformat{\subsection}
+{\large\bfseries}
+{\thesubsection}
+{0.5em}
+{}
+
+% =========================================================
+% DOCUMENT
+% =========================================================
+
+\begin{document}
+
+% ---------------------------------------------------------
+% Title Page
+% ---------------------------------------------------------
+\begin{titlepage}
+    \centering
+
+    \vspace*{2cm}
+
+    {\Huge\bfseries Software Testing Assignment\par}
+
+    \vspace{0.7cm}
+
+    {\LARGE AbleSpace Staging Application\par}
+
+    \vspace{1.5cm}
+
+    {\Large Manual QA Testing Report\par}
+
+    \vspace{2cm}
+
+    \begin{tabular}{rl}
+        \textbf{Prepared by:} & Abhishek Singh \\
+        \textbf{Role:} & Software Tester (QA) \\
+        \textbf{Application:} & AbleSpace \\
+        \textbf{Environment:} & Staging \\
+        \textbf{Testing Date:} & 06--07 October 2026 \\
+    \end{tabular}
+
+    \vfill
+
+    {\large Prepared as part of the QA practical assignment\par}
+
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+% =========================================================
+% SECTION 1
+% =========================================================
+
+\section{Test Environment and Setup}
+
+\subsection{Application}
+
+Testing was performed on the AbleSpace -- IEP Goal Tracking App staging application:
+
+\begin{center}
+\href{https://staging.ablespace.io}{\texttt{staging.ablespace.io}}
+\end{center}
+
+The testing was performed using one manually created test account, as required by the assignment. Fictional student and profile data was used during testing.
+
+\subsection{Primary Test Environment}
+
+\begin{itemize}
+    \item Operating environment: Desktop
+    \item Primary browser: Google Chrome 154.0.8037.98 (64-bit)
+    \item Additional browsers: Mozilla Firefox and Microsoft Edge
+    \item Mobile web viewport: 390 $\times$ 844
+    \item Tablet emulation: iPad Mini and iPad Pro 13-inch
+    \item Testing type: Manual functional, exploratory, validation, usability, and compatibility testing
+\end{itemize}
+
+\subsection{Test Data}
+
+The following fictional data was used:
+
+\begin{itemize}
+    \item Test user name: Aarav Mehta
+    \item Test student: Maya Sharma
+    \item School: Green Valley School
+    \item Goal: Reading
+    \item Goal description: Maya will correctly read simple words with 80\% accuracy.
+\end{itemize}
+
+No real student or customer data was intentionally used.
+
+\subsection{Testing Scope}
+
+The following areas were covered:
+
+\begin{itemize}
+    \item Account onboarding
+    \item Role selection
+    \item Email verification
+    \item Student creation and editing
+    \item Student search
+    \item Goal creation
+    \item Data collection
+    \item Session editing
+    \item Activity and History
+    \item Collaborator interface inspection
+    \item Responsive/mobile web layout
+    \item Cross-browser compatibility
+    \item Tablet compatibility
+\end{itemize}
+
+Security testing, penetration testing, load testing, and performance testing were not performed because they were outside the assignment scope.
+
+% =========================================================
+% SECTION 2
+% =========================================================
+
+\section{Exploratory Testing}
+
+Exploratory testing was performed by navigating through important application workflows and checking normal, negative-input, validation, and usability conditions.
+
+\begin{longtable}{p{0.10\textwidth}p{0.37\textwidth}p{0.47\textwidth}}
+\toprule
+\textbf{ID} & \textbf{Scenario} & \textbf{Result} \\
+\midrule
+
+ET-01 &
+Account onboarding with valid fictional information &
+PASS -- Account creation and onboarding flow completed successfully. \\
+
+ET-02 &
+Role dropdown with predefined roles &
+PASS -- Predefined roles could be selected and the dropdown behaved normally. \\
+
+ET-03 &
+Role dropdown with arbitrary text &
+FAIL -- Arbitrary text such as \texttt{xyzabc123} appeared as a selectable option in a field presented as a role dropdown. This was recorded as BUG-002. \\
+
+ET-04 &
+Password validation during onboarding &
+PASS -- Password length and strength feedback were displayed. \\
+
+ET-05 &
+Privacy Policy checkbox validation &
+PASS -- Continue remained disabled until the required checkbox was selected. \\
+
+ET-06 &
+Create and search for a student &
+PASS -- Maya Sharma was created successfully and could be found using search. \\
+
+ET-07 &
+Edit student information &
+PASS -- School information was updated successfully and persisted after returning to the profile. \\
+
+ET-08 &
+Create a goal and collect data &
+PASS -- A Reading goal was created and correct/incorrect responses and prompts could be recorded. \\
+
+ET-09 &
+Edit and persist an existing data session &
+PASS -- A Correct response was added through the Capture view, the application displayed ``All changes Saved'', and the updated counts were reflected in Stats. \\
+
+ET-10 &
+Responsive and cross-browser testing &
+PARTIAL / FAIL -- Desktop browser checks passed, but the 390 $\times$ 844 mobile web check exposed a Session History readability issue, which was recorded as BUG-003. \\
+
+\bottomrule
+\end{longtable}
+
+
+
+\subsection{Additional Exploratory Observations}
+
+During onboarding, the email verification link received after account creation led to a verification page displaying an ``expired or already used'' message when the verification action was completed.
+
+The application continued to indicate that the email had not been confirmed. A verification-status indicator or successful verification state was not observed in the Profile Settings area during the testing performed.
+
+The Role dropdown allowed arbitrary text such as \texttt{xyzabc123} to appear as a selectable option. This behavior was promoted to BUG-002 because the control is presented as a role-selection field and permits an unsupported arbitrary value to become selectable.
+
+The student First Name field accepted and saved a numeric-only value. This was retained as an input-validation observation because the assignment did not provide an explicit naming rule requiring alphabetic-only names.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.82\textwidth,height=0.50\textheight,keepaspectratio]{images/onboarding.png}
+    \caption{AbleSpace onboarding screen for selecting team or individual usage.}
+    \label{fig:onboarding}
+\end{figure}
+
+% ---------------------------------------------------------
+% Supporting exploratory evidence
+% ---------------------------------------------------------
+
+
+\subsection{Supporting Student-Management Evidence}
+
+The following screenshots provide supporting evidence for the student-management exploratory scenarios.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.82\textwidth,height=0.40\textheight,keepaspectratio]{images/student-create.png}
+    \caption{Supporting evidence: Student creation form and fictional student data.}
+    \label{fig:student-create}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.82\textwidth,height=0.40\textheight,keepaspectratio]{images/student-search-positive.png}
+    \caption{Supporting evidence: Positive student search finding Maya Sharma.}
+    \label{fig:student-search-positive}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.82\textwidth,height=0.40\textheight,keepaspectratio]{images/student-search-negative.png}
+    \caption{Supporting evidence: Negative student search showing no matching results.}
+    \label{fig:student-search-negative}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.82\textwidth,height=0.40\textheight,keepaspectratio]{images/student-edit.png}
+    \caption{Supporting evidence: Student profile showing the edit option to update the information.}
+    \label{fig:student-edit}
+\end{figure}
+
+% =========================================================
+% SECTION 3
+% =========================================================
+
+\section{Detailed Test Cases}
+
+\textbf{Chosen workflow:} Create Goal $\rightarrow$ Record Data $\rightarrow$ Review Session Statistics $\rightarrow$ Edit Session Data $\rightarrow$ Verify Saved Results.
+
+\textbf{Why this workflow:} It is a core data-collection workflow where incorrect recording or saving could directly affect the accuracy of student progress information.
+
+The following six test cases cover positive, calculation, prompt-tracking, editing, and persistence-related checks within this workflow.
+
+% ---------------------------------------------------------
+% TC-01
+% ---------------------------------------------------------
+\subsection{TC-01 -- Create Accuracy Goal}
+
+\begin{tabularx}{\textwidth}{>{\bfseries}p{0.22\textwidth}X}
+TC ID & TC-01 \\
+Title & Create Accuracy Goal \\
+Preconditions & Maya Sharma is available and the goal/data workflow can be opened. \\
+Test Data & Goal Title: Reading; Description: Maya will correctly read simple words with 80\% accuracy; Measurement: Accuracy. \\
+Steps & \begin{enumerate}[leftmargin=*]
+    \item Open the data/goal workflow for Maya Sharma.
+    \item Select \textbf{Add Goal}.
+    \item Enter the goal title and description.
+    \item Select \textbf{Accuracy} as the measurement type.
+    \item Save the goal.
+\end{enumerate} \\
+Expected Result & The Reading goal is created and displayed in the goal list. \\
+Actual Result & The Reading goal was created successfully and displayed in the goal list. \\
+Status & PASS
+\end{tabularx}
+
+\vspace{0.35cm}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.76\textwidth,height=0.40\textheight,keepaspectratio]{images/goal-created.png}
+    \caption{TC-01 evidence: Reading goal created using Accuracy measurement.}
+    \label{fig:tc01-goal}
+\end{figure}
+
+% ---------------------------------------------------------
+% TC-02
+% ---------------------------------------------------------
+\subsection{TC-02 -- Record Correct and Incorrect Responses}
+
+\begin{tabularx}{\textwidth}{>{\bfseries}p{0.22\textwidth}X}
+TC ID & TC-02 \\
+Title & Record Correct and Incorrect Responses \\
+Preconditions & An Accuracy goal exists for Maya Sharma. \\
+Test Data & One Correct response and one Incorrect response. \\
+Steps & \begin{enumerate}[leftmargin=*]
+    \item Open the data-capture screen.
+    \item Select the Correct (+) control once.
+    \item Select the Incorrect (-) control once.
+    \item Observe Attempts, Correct, Incorrect, and Accuracy.
+\end{enumerate} \\
+Expected Result & Attempts increases to 2, Correct is 1, Incorrect is 1, and Accuracy is 50\%. \\
+Actual Result & Attempts became 2, Correct was 1, Incorrect was 1, and Accuracy displayed 50\%. \\
+Status & PASS
+\end{tabularx}
+
+\vspace{0.35cm}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.76\textwidth,height=0.40\textheight,keepaspectratio]{images/data-capture.png}
+    \caption{TC-02 evidence: Data capture showing recorded Correct and Incorrect responses.}
+    \label{fig:tc02-capture}
+\end{figure}
+
+% ---------------------------------------------------------
+% TC-03
+% ---------------------------------------------------------
+\subsection{TC-03 -- Record a Prompt Without Adding an Attempt}
+
+\begin{tabularx}{\textwidth}{>{\bfseries}p{0.22\textwidth}X}
+TC ID & TC-03 \\
+Title & Record a Verbal Prompt \\
+Preconditions & An Accuracy goal exists and two responses have already been recorded. \\
+Test Data & Prompt type: Verbal. \\
+Steps & \begin{enumerate}[leftmargin=*]
+    \item Open the prompt options.
+    \item Select \textbf{Verbal}.
+    \item Record one prompt using the prompt control.
+    \item Observe Attempts and Prompts.
+\end{enumerate} \\
+Expected Result & Prompts increases by one, the prompt type is recorded as Verbal, and Attempts does not increase merely because the prompt is recorded. \\
+Actual Result & Prompts increased to 1, the prompt was recorded as Verbal, and Attempts remained at 2. \\
+Status & PASS
+\end{tabularx}
+
+\vspace{0.35cm}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.76\textwidth,height=0.40\textheight,keepaspectratio]{images/session-stats.png}
+    \caption{TC-03 evidence: Session statistics showing the recorded Verbal prompt.}
+    \label{fig:tc03-prompt}
+\end{figure}
+
+% ---------------------------------------------------------
+% TC-04
+% ---------------------------------------------------------
+\subsection{TC-04 -- Verify Accuracy Calculation in Graph and Stats}
+
+\begin{tabularx}{\textwidth}{>{\bfseries}p{0.22\textwidth}X}
+TC ID & TC-04 \\
+Title & Verify Accuracy Calculation \\
+Preconditions & Two responses exist: one Correct and one Incorrect. \\
+Test Data & Expected Accuracy: 1/2 = 50\%. \\
+Steps & \begin{enumerate}[leftmargin=*]
+    \item Open the \textbf{Graph} tab.
+    \item Verify the displayed accuracy.
+    \item Open the \textbf{Stats} tab.
+    \item Compare the Accuracy value with the recorded response counts.
+\end{enumerate} \\
+Expected Result & Both views report 50\% accuracy for the session. \\
+Actual Result & The Graph displayed 50\% accuracy and the Stats view also displayed 50\%. \\
+Status & PASS
+\end{tabularx}
+
+% ---------------------------------------------------------
+% TC-05
+% ---------------------------------------------------------
+\subsection{TC-05 -- Edit Session Data from the Data Page}
+
+\begin{tabularx}{\textwidth}{>{\bfseries}p{0.22\textwidth}X}
+TC ID & TC-05 \\
+Title & Edit Saved Session Data from the Data Page \\
+Preconditions & A saved session exists for Maya Sharma with recorded data. \\
+Test Data & Existing values: Correct = 4, Incorrect = 1, Prompts = 2. Change Correct from 4 to 5. \\
+Steps & \begin{enumerate}[leftmargin=*]
+    \item Open the \textbf{Data} page from the left navigation.
+    \item Locate Maya Sharma's saved session.
+    \item Open the session's three-dot action menu.
+    \item Select \textbf{Edit Session}.
+    \item Change the Correct count from 4 to 5.
+    \item Verify the calculated Accuracy changes to 50\%.
+    \item Click \textbf{Save}.
+\end{enumerate} \\
+Expected Result & The edited Correct value is accepted, Attempts and Accuracy are recalculated correctly, and the Save action completes successfully. \\
+Actual Result & Correct became 5, Incorrect remained 1, Prompts remained 2, Attempts became 6, Accuracy displayed 50\%, and the edited session was saved successfully. \\
+Status & PASS
+\end{tabularx}
+
+\vspace{0.35cm}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.82\textwidth,height=0.43\textheight,keepaspectratio]{images/edit-session-dialog.png}
+    \caption{TC-05 evidence: Data-page Edit Session dialog showing the session data before the edit.}
+    \label{fig:tc05-edit-dialog}
+\end{figure}
+
+\vspace{0.15cm}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.82\textwidth,height=0.43\textheight,keepaspectratio]{images/tc05-edited-values.png}
+    \caption{TC-05 evidence: Edit Session dialog after changing Correct from 4 to 5, showing 50\% Accuracy and 6 Attempts.}
+    \label{fig:tc05-edited}
+\end{figure}
+
+% ---------------------------------------------------------
+% TC-06
+% ---------------------------------------------------------
+
+\clearpage
+
+\subsection{TC-06 -- Verify Edited Session Data Persists Across Views}
+
+\begin{tabularx}{\textwidth}{>{\bfseries}p{0.22\textwidth}X}
+TC ID & TC-06 \\
+Title & Verify Edited Session Data Persists Across Views \\
+Preconditions & TC-05 has been completed successfully and the edited session has been saved. \\
+Test Data & Expected persisted values: Correct = 5, Incorrect = 1, Prompts = 2, Attempts = 6, Accuracy = 50\%. \\
+Steps & \begin{enumerate}[leftmargin=*]
+    \item Return to the \textbf{Data} page.
+    \item Locate Maya Sharma's saved session.
+    \item Verify that the session summary displays 50\% Accuracy.
+    \item Open \textbf{Caseload}.
+    \item Open Maya Sharma's \textbf{View Data}.
+    \item Open the \textbf{Stats} tab.
+    \item Verify that the same updated session values are displayed.
+\end{enumerate} \\
+Expected Result & The values saved in TC-05 remain unchanged and consistent when the same session is viewed from the Data page and the Stats view. \\
+Actual Result & The Data page displayed 50\% Accuracy. The Caseload $\rightarrow$ View Data $\rightarrow$ Stats workflow also displayed 50\% Accuracy with 6 Attempts, confirming that the edited session data persisted across views. \\
+Status & PASS
+\end{tabularx}
+
+\vspace{0.4cm}
+
+\noindent
+\textbf{TC-06 Evidence:} The following screenshots verify that the edited session values persisted across the two available views.
+
+% ---------------------------------------------------------
+% TC-06 Evidence 1
+% ---------------------------------------------------------
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[
+        width=0.92\textwidth,
+        keepaspectratio
+    ]{images/tc06-data-page.png}
+
+    \vspace{0.25cm}
+
+    \caption{TC-06 Evidence 1: Data page showing the persisted 50\% Accuracy after saving the edited session.}
+    \label{fig:tc06-data}
+\end{figure}
+
+\vspace{0.45cm}
+
+% ---------------------------------------------------------
+% TC-06 Evidence 2
+% ---------------------------------------------------------
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[
+        width=0.92\textwidth,
+        keepaspectratio
+    ]{images/tc06-stats.png}
+
+    \vspace{0.25cm}
+
+    \caption{TC-06 Evidence 2: Caseload $\rightarrow$ View Data $\rightarrow$ Stats showing 50\% Accuracy and 6 Attempts.}
+    \label{fig:tc06-stats}
+\end{figure}
+
+\clearpage
+
+% =========================================================
+% SECTION 4
+% =========================================================
+
+\section{Bug Reports}
+
+Three issues were selected for detailed reporting. The reports below focus on reproducible user-visible behavior and avoid assuming an internal root cause.
+
+% ---------------------------------------------------------
+% BUG 001
+% ---------------------------------------------------------
+
+\subsection{BUG-001 -- Email Verification Link Fails}
+
+\textbf{Bug ID:} BUG-001
+
+\textbf{Title:} Newly received email verification link displays ``expired or already used''
+
+\textbf{Severity:} High
+
+\textbf{Priority:} High
+
+\textbf{Environment:} \url{https://staging.ablespace.io}, tested 06--07 October 2026
+
+\textbf{Browser / Device:} Google Chrome 154.0.8037.98 (64-bit), Desktop
+
+\textbf{Reproducibility:} Observed once during testing; not retested with a resend
+
+\textbf{Steps to Reproduce:}
+\begin{enumerate}
+    \item Create an account using fictional test information.
+    \item Open the verification email received after account creation.
+    \item Click the ``Verify Email'' link.
+    \item On the verification page, click ``COMPLETE VERIFICATION''.
+    \item Observe the resulting verification status.
+\end{enumerate}
+
+\textbf{Expected Result:} The newly received verification link should successfully verify the account and the application should reflect the verified state.
+
+\textbf{Actual Result:} The verification page displayed an error indicating that the request had expired or the link had already been used. The application continued to indicate that the email had not been verified.
+
+\textbf{Impact:} The user cannot complete the normal email-verification workflow using the verification link received immediately after account creation. This affects an important account-level onboarding function.
+
+\textbf{Evidence:}
+\clearpage
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.86\textwidth]{images/bug-001-email-verification.png}
+    \caption{BUG-001 evidence: Email verification page displaying the ``expired or already used'' message.}
+    \label{fig:bug001}
+\end{figure}
+
+\noindent
+\textbf{Evidence hygiene:} Any verification URL, token, or personal email address should be cropped or hidden before submission.
+
+\noindent
+\textbf{Note:} The ability to change the email address from Profile Settings was observed after account creation, but it was not promoted to a bug because the assignment did not establish a requirement that the email address must remain immutable after signup.
+
+% ---------------------------------------------------------
+% BUG 002
+% ---------------------------------------------------------
+
+\subsection{BUG-002 -- Role Dropdown Accepts Arbitrary Values}
+
+\textbf{Bug ID:} BUG-002
+
+\textbf{Title:} Role dropdown allows arbitrary typed values to become selectable roles
+
+\textbf{Severity:} Medium
+
+\textbf{Priority:} High
+
+\textbf{Environment:} \url{https://staging.ablespace.io}, tested 06--07 October 2026
+
+\textbf{Browser / Device:} Google Chrome 154.0.8037.98 (64-bit), Desktop
+
+\textbf{Reproducibility:} Always during the tested interaction
+
+\textbf{Steps to Reproduce:}
+\begin{enumerate}
+    \item Open the signup/onboarding flow.
+    \item Focus the \textbf{Role} dropdown.
+    \item Type an arbitrary value such as \texttt{xyzabc123}.
+    \item Observe the options displayed by the control.
+    \item Select the arbitrary value.
+\end{enumerate}
+
+\textbf{Expected Result:} The Role control should allow selection only from supported/predefined roles, unless custom role creation is explicitly supported.
+
+\textbf{Actual Result:} An arbitrary value such as \texttt{xyzabc123} appeared as a selectable option in the Role control and could be selected.
+
+\textbf{Evidence:}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.84\textwidth]{images/bug-002-role-dropdown.png}
+    \caption{BUG-002 evidence: Role control displaying an arbitrary typed value as a selectable option.}
+    \label{fig:bug002}
+\end{figure}
+
+\noindent
+\textbf{Note:} No backend/root-cause assumption is made. The defect is reported from the user-visible validation behavior of the role control.
+
+
+
+% ---------------------------------------------------------
+% BUG 003
+% ---------------------------------------------------------
+
+\subsection{BUG-003 -- Session History Is Difficult to Read on Mobile Web}
+
+\textbf{Bug ID:} BUG-003
+
+\textbf{Title:} Session History information is difficult to read at a 390 $\times$ 844 mobile web viewport
+
+\textbf{Severity:} Medium
+
+\textbf{Priority:} Medium
+
+\textbf{Environment:} \url{https://staging.ablespace.io}, tested 06--07 October 2026
+
+\textbf{Browser / Device:} Google Chrome 154.0.8037.98, responsive mobile web viewport 390 $\times$ 844
+
+\textbf{Reproducibility:} Always during the tested viewport interaction
+
+\textbf{Steps to Reproduce:}
+\begin{enumerate}
+    \item Open the AbleSpace staging application at a 390 $\times$ 844 mobile web viewport.
+    \item Open \textbf{Activity \& History}.
+    \item Open \textbf{Session History}.
+    \item Inspect the session-history table.
+\end{enumerate}
+
+\textbf{Expected Result:} Session History information should remain clearly readable and usable at the mobile viewport through an appropriately responsive layout or clearly presented table scrolling.
+
+\textbf{Actual Result:} The table required horizontal scrolling and important information was not clearly visible within the initial viewport, making the session data difficult to read.
+
+\textbf{Evidence:}
+\clearpage
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.72\textwidth,height=0.45\textheight,keepaspectratio]{images/mobile-session-history.png}
+    \caption{BUG-003 evidence: Session History at a 390 $\times$ 844 mobile web viewport.}
+    \label{fig:bug003}
+\end{figure}
+
+\noindent
+\textbf{Note:} Horizontal scrolling itself was not treated as the defect; the reported issue is reduced readability and visibility of important information within the initial mobile web viewport.
+
+\noindent
+\textbf{Native-app limitation:} The exact AbleSpace -- IEP Goal Tracking App was not installed from Google Play Store or Apple App Store during this assignment. Therefore, BUG-003 is explicitly reported as a responsive web/mobile-viewport issue and not as a defect in a native mobile application.
+
+\subsection{Additional Observations}
+
+\begin{itemize}
+    \item The First Name field accepted and saved a numeric-only value. This was retained as an input-validation observation because the assignment did not define an alphabetic-only naming rule.
+\end{itemize}
+
+% =========================================================
+% SECTION 5
+% =========================================================
+
+\section{Compatibility Testing}
+
+Compatibility testing was performed on the desktop browsers and viewport emulations that were available during the assignment.
+
+The assignment specifically requests a mobile application check. The exact AbleSpace -- IEP Goal Tracking App was not available for native installation during the testing performed. Therefore, the mobile result is explicitly reported as a \textbf{web responsive-viewport check}, not as a native-app compatibility result.
+
+\subsection{Desktop and Mobile Web Compatibility Matrix}
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.19\textwidth}*{4}{>{\centering\arraybackslash}p{0.10\textwidth}}>{\raggedright\arraybackslash}X}
+\toprule
+\textbf{Area / Feature} & \textbf{Chrome} & \textbf{Firefox} & \textbf{Edge} & \textbf{Mobile Web 390$\times$844} & \textbf{Notes} \\
+\midrule
+Main workflow / Caseload & PASS & PASS & PASS & PASS & Core Caseload interface loaded and was usable in all tested web environments. \\
+Student forms / management & PASS & PASS & PASS & PASS & Student creation/edit workflow was exercised; mobile coverage focused on responsive usability. \\
+Navigation & PASS & PASS & PASS & FAIL & Core navigation worked; the mobile Session History presentation reduced usability. \\
+Session History & PASS & Not tested & Not tested & FAIL & Mobile web table required horizontal scrolling and reduced readability. \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{Tablet Compatibility}
+
+\begin{center}
+\small
+\begin{tabularx}{0.78\textwidth}{>{\raggedright\arraybackslash}p{0.30\textwidth}>{\centering\arraybackslash}p{0.18\textwidth}X}
+\toprule
+\textbf{Device / Viewport} & \textbf{Result} & \textbf{Notes} \\
+\midrule
+iPad Mini emulation & PASS & AbleSpace Caseload loaded correctly and the student-management interface was accessible. \\
+iPad Pro 13-inch emulation & PASS & AbleSpace Caseload loaded correctly and the student-management interface was accessible. \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{Compatibility Evidence}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.86\textwidth,height=0.42\textheight,keepaspectratio]{images/firefox.png}
+    \caption{Firefox desktop: AbleSpace Caseload displayed successfully.}
+    \label{fig:firefox}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.86\textwidth,height=0.42\textheight,keepaspectratio]{images/edge.png}
+    \caption{Microsoft Edge desktop: AbleSpace Caseload displayed successfully.}
+    \label{fig:edge}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.68\textwidth,height=0.48\textheight,keepaspectratio]{images/ipad-mini.png}
+    \caption{iPad Mini emulated viewport.}
+    \label{fig:ipad-mini}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.68\textwidth,height=0.48\textheight,keepaspectratio]{images/ipad-pro-13.png}
+    \caption{iPad Pro 13-inch emulated viewport.}
+    \label{fig:ipad-pro}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.68\textwidth,height=0.38\textheight,keepaspectratio]{images/mobile-390x844.png}
+    \caption{Mobile web viewport at 390 $\times$ 844.}
+    \label{fig:mobile-390}
+\end{figure}
+
+\subsection{Plan-Restricted and Unsent Actions}
+
+Billing functionality was not tested because the test account displayed an ``Upgrade to Pro'' restriction. No attempt was made to bypass the restriction.
+
+The Collaborator page and invitation form were inspected, but no invitation was sent because the assignment prohibits contacting users.
+
+% =========================================================
+% SECTION 6
+% =========================================================
+
+\section{Testing Summary}
+
+\subsection{Testing Performed}
+
+Manual exploratory, functional, validation, usability, and compatibility testing was performed against the AbleSpace -- IEP Goal Tracking App staging application.
+
+The main areas covered were account onboarding, role selection, email verification, student creation and editing, student search, goal creation, data collection, session statistics, session editing, Activity \& History, collaborator interface inspection, responsive web layout, cross-browser compatibility, and tablet emulation.
+
+Desktop checks were performed in Google Chrome, Mozilla Firefox, and Microsoft Edge.
+
+The main workflow was also exercised in Microsoft Edge. Responsive web checks included a 390 $\times$ 844 viewport, iPad Mini emulation, and iPad Pro 13-inch emulation.
+
+\subsection{Issues Found}
+
+Three issues were selected for detailed reporting:
+
+\begin{enumerate}
+    \item \textbf{BUG-001} -- the newly received email verification link displayed an ``expired or already used'' error and the application continued to indicate that the email had not been verified. This is the highest-priority issue because email verification is an account-level workflow.
+    \item \textbf{BUG-002} -- the Role dropdown allowed an arbitrary typed value to become selectable.
+    \item \textbf{BUG-003} -- Session History was difficult to read at the 390 $\times$ 844 mobile web viewport.
+\end{enumerate}
+
+One additional input-validation observation was recorded but not promoted to the three primary bugs: the First Name field accepted and saved a numeric-only value. The assignment did not define an alphabetic-only naming rule, so this was not treated as a confirmed defect.
+
+\subsection{Areas Not Tested}
+
+The following areas were intentionally not tested or were only partially inspected:
+
+\begin{itemize}
+    \item Security, penetration, injection, load/stress, and performance testing.
+    \item Native mobile installation from Google Play Store or Apple App Store.
+    \item Native mobile-app behavior of the AbleSpace -- IEP Goal Tracking App.
+    \item Billing functionality requiring a Pro subscription.
+    \item Sending collaborator invitations.
+    \item Creating additional user accounts.
+\end{itemize}
+
+These exclusions were made to remain within the assignment rules and avoid unintended external communication or prohibited testing activity.
+
+\subsection{What I Would Test Next}
+
+With another 1--2 hours, I would first retest the email-verification flow using one controlled resend and verify the resulting account state.
+
+I would then expand boundary and validation testing for student and goal fields, test refresh/back-navigation and repeated actions across the main workflow, and perform a broader feature-by-feature compatibility sweep on mobile and tablet sizes.
+
+Finally, I would regression-test the session editing paths and verify that edited session values remain consistent across Data, Capture, Graph, and Stats views.
+
+\noindent
+\textbf{Evidence selection note:} Screenshots are included where they materially support a test result or defect. For test cases, the evidence focuses on the key interaction or final state rather than repeating visually similar screens.
+
+% =========================================================
+% APPENDIX
+% =========================================================
+
+\appendix
+
+\section{Evidence Checklist}
+
+The following screenshots are included as supporting evidence. The filenames correspond to the image files stored in the \texttt{images/} folder used by the LaTeX document.
+
+\begin{longtable}{p{0.10\textwidth}p{0.57\textwidth}p{0.25\textwidth}}
+\toprule
+\textbf{ID} & \textbf{Evidence} & \textbf{Filename} \\
+\midrule
+E-01 & Account/onboarding screen & onboarding.png \\
+E-02 & Email verification error & bug-001-email-verification.png \\
+E-03 & Role dropdown arbitrary-value behavior & bug-002-role-dropdown.png \\
+E-04 & Mobile Session History readability issue & mobile-session-history.png \\
+E-05 & Student creation & student-create.png \\
+E-06 & Positive student search & student-search-positive.png \\
+E-07 & Negative student search & student-search-negative.png \\
+E-08 & Student profile/edit result & student-edit.png \\
+E-09 & Goal creation & goal-created.png \\
+E-10 & Data capture & data-capture.png \\
+E-11 & Session statistics & session-stats.png \\
+E-12 & TC-05 Edit Session dialog before editing & edit-session-dialog.png \\
+E-13 & TC-05 Edit Session dialog after editing & tc05-edited-values.png \\
+E-14 & TC-06 Data page showing persisted values & tc06-data-page.png \\
+E-15 & TC-06 Stats view showing persisted values & tc06-stats.png \\
+E-16 & Firefox compatibility & firefox.png \\
+E-17 & Edge compatibility & edge.png \\
+E-18 & Mobile web viewport 390 $\times$ 844 & mobile-390x844.png \\
+E-19 & iPad Mini compatibility & ipad-mini.png \\
+E-20 & iPad Pro 13-inch compatibility & ipad-pro-13.png \\
+\bottomrule
+\end{longtable}
+
+\section{Final Notes}
+
+All findings in this report are based on manual testing performed against the AbleSpace -- IEP Goal Tracking App staging application during the stated testing period.
+
+No root cause has been assumed for the reported issues. The report focuses on observed user-visible behavior, reproduction steps, expected behavior, actual behavior, impact, and available evidence.
+
+The mobile Session History finding is explicitly limited to the responsive web viewport that was tested. It should not be interpreted as a defect in a native mobile application because the exact AbleSpace -- IEP Goal Tracking App was not installed from a mobile app store during this assignment.
+
+The report includes the tester's name and role on the title page. A phone number or personal contact address is intentionally omitted because the assignment does not require tester contact details.
+
+\end{document}
